@@ -1,37 +1,46 @@
 # G.O.A.T. 
 *(Gyroscope Orientation Assisted Trainer)*
 
-Milestones:
--Prototype
---Gyroscopes to BLE
---Basic App BLE functionality
---Record and Compare functionality
---Simple gamefied visual feedback
--MVP
--Soft Launch
+## Milestones:
+### Proof of Concept (Week 4)
+  - Desktop web app
+  - Record Motions
+  - Compare Motions in real-time
+### MVP Prototype (Week 6)
+  - Android and iOS testing app
+  - Set of prototype devices
+### Alpha (Week 8)
+  - MVP of pivot version (see below)
+### Soft Launch (Week 10)
+  - Sellable version of device
+  - Store Web Page
+  - Apps on AppStore and PlayStore
 
-##Potential Pivots:
-Version A
-Asthetic: Sleek, High Tech, Advanced Training 
+## Potential Pivots:
+### Version A
 Target Demo: Obsessive and Prententious Gym Nuts
+
+Asthetic: Sleek, High Tech, Advanced Training 
 Features:
 - Realtime 3D feedback
 - Workout Planner
 - Record Your Own PRs et.
 - Custom Workouts
-Version B
-Asthetic: Gameified, bright, fun, Duolingo for working out
-Target Demo: Active Young Women
+### Version B
+Target Demo: Young Fitness Women
+
+Asthetic: Gameified, quirky, self-help, Duolingo for working out
 Features:
 - Gamefied 2D Animations
 - Meters
 - Streaks
-- Friend Lists 
-- Gym Buddies (Accountability Partners)
-Version C
-Asthetic: A decent video game that just happens to also be controlled by weightlifting
+- Social Features
+- User database
+### Version C
 Target Demo: (Mothers of) teenage boys that don't excersize much
+
+Asthetic: A decent video game that just happens to also be controlled by weightlifting
 Features:
-- Joycon-like controller peripheral in addition to the Gyroscopes
-- Straight up 3D video game
+- Joycon-like controller peripheral in addition to the Gyroscopes and resistance bands
+- Unity or Unreal Game
 - Character Progression etc.
