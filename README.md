@@ -1,7 +1,7 @@
 # G.O.A.T. 
 *(Gyroscope Orientation Assisted Trainer)*
 
-*[Figma Design](https://www.markdownguide.org](https://www.figma.com/file/cy31POaSQoa6J9t4WKOvf6/Goat?type=design&node-id=0-1&mode=design&t=Iuh3tgumzRn0X1kU-0))*
+*[Figma Design](https://www.figma.com/file/cy31POaSQoa6J9t4WKOvf6/Goat?type=design&node-id=0%3A1&mode=design&t=Iuh3tgumzRn0X1kU-1)*
 
 ## Milestones:
 ### Proof of Concept (Week 4)
