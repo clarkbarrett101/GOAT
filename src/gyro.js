@@ -11,9 +11,8 @@ class Gyro {
             this.z = Math.sin(this.testModifier/3);
             return [this.x, this.y, this.z];
         }
+        this.isMoving = function(){
+            
+        }
     }
-}
-
-function compareToGyro(gyro){
-    
 }

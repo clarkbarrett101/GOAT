@@ -6,13 +6,11 @@ class Reel {
             
         }
 
-        this.addFrame = function(frame){
+        this.addFrame = function(frameNumber,frame){
             
         }
     }
 }
-
-function combineReels(reels){
-    let masterReel = new Reel();
-    return masterReel;
+function compareGyroFrame(reelFrame,gyroFrame,toleranceLevel){
+    
 }
