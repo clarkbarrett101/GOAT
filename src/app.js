@@ -31,7 +31,6 @@ function UpdateLoop(){
     case "comparing":
         if(gyro.isMoving()){
           let gyroFrame = gyro.readArray();
-          let reelFrame = masterReel.readFrame(currentFrame);
           let difference = compareGyroFrame(reelFrame,gyroFrame,ToleranceLevel);
           changeScore(difference);
           currentFrame++;

@@ -16,7 +16,7 @@ class Reel {
         
         }
         //TODO: Compare function
-        this.compareGyroFrame = function(gyroFrame,toleranceLevel){
+        this.compareGyroFrame = function(gyroFrame, frameNumber, toleranceLevel){
         // this fuction compares two frames and returns a number representing the difference between them, adjusted by the tolerance level
     
         }
