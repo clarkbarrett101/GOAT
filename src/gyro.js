@@ -9,6 +9,7 @@ class Gyro {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+        this.lastRotation = [0,0,0];
         this.readArray = function(){
             return [this.x, this.y, this.z];
         }
@@ -17,12 +18,11 @@ class Gyro {
         // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
             
         }
-        this.testRotation = function(){
-            this.testModifier += 0.1;
+        this.testRotation = function(x){
+            this.testModifier += x;
             this.x = Math.sin(this.testModifier);
             this.y = Math.sin(this.testModifier*2);
             this.z = Math.sin(this.testModifier/3);
-            console.log(this.x);
         }
     }
 }
