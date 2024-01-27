@@ -1,9 +1,11 @@
-# G.O.A.T. 
+# Project: G.O.A.T. 
 *(Gyroscope Orientation Assisted Trainer)*
 
 *[Code Structure Diagram](https://lucid.app/lucidchart/e58baed1-bca7-4dca-a5b9-56b4f2e45bb5/edit?viewport_loc=-488%2C-584%2C4968%2C2412%2C0_0&invitationId=inv_98387498-2dad-4d12-8d1e-eead778dbadc)*
 
 *[UI Design](https://www.figma.com/file/cy31POaSQoa6J9t4WKOvf6/Goat?type=design&node-id=0%3A1&mode=design&t=Iuh3tgumzRn0X1kU-1)*
+
+*[Current Deployment Webpage](https://clarkbarrett101.github.io/GOAT/)*
 
 ## Milestones:
 ### Proof of Concept (Week 4)
