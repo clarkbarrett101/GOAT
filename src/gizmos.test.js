@@ -1,48 +1,49 @@
-import {ToleranceLevel, gizmos} from "./gizmos.js";
-import{app} from "./app.js";
+const Gizmos = require("./gizmos.js");
+const {getCurrentMode} = require("./app.js")
 
-TextDecoderStream("Score tests", () => {
-    changeScore(1);
-    expect(score).toBe(1);
-    expect(scoreToLetterGrade(score)).toBe("S");
-    changeScore(0);
-    expect(score).toBe(1);
-    expect(scoreToLetterGrade(score)).toBe("S");
-    changeScore(-0.05);
-    expect(score).toBe(0.95);
-    expect(scoreToLetterGrade(score)).toBe("S");
-    changeScore(-0.1);
-    expect(score).toBe(0.85);
-    expect(scoreToLetterGrade(score)).toBe("A");
-    changeScore(-0.1);
-    expect(score).toBe(0.75);
-    expect(scoreToLetterGrade(score)).toBe("B");
-    changeScore(-0.1);
-    expect(score).toBe(0.65);
-    expect(scoreToLetterGrade(score)).toBe("C");
-    changeScore(-0.1);
-    expect(score).toBe(0.55);
-    expect(scoreToLetterGrade(score)).toBe("D");
-    changeScore(-0.1);
-    expect(score).toBe(0.45);
-    expect(scoreToLetterGrade(score)).toBe("F");
-    changeScore(-0.1);  
-    expect(score).toBe(0.35);
-    expect(scoreToLetterGrade(score)).toBe("F");
+test("Score tests", () => {
+    Gizmos.changeScore(1);
+    expect(Gizmos.getScore()).toBe(1);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("S");
+    Gizmos.changeScore(0);
+    expect(Gizmos.getScore()).toBe(1);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("S");
+    Gizmos.changeScore(-0.05);
+    expect(Gizmos.getScore()).toBe(0.95);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("S");
+    Gizmos.changeScore(-0.1);
+    expect(Gizmos.getScore()).toBe(0.85);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("A");
+    Gizmos.changeScore(-0.1);
+    expect(Gizmos.getScore()).toBe(0.75);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("B");
+    Gizmos.changeScore(-0.1);
+    expect(Gizmos.getScore()).toBe(0.65);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("C");
+    Gizmos.changeScore(-0.1);
+    expect(Gizmos.getScore()).toBe(0.55);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("D");
+    Gizmos.changeScore(-0.1);
+    expect(Gizmos.getScore()).toBe(0.45);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("F");
+    Gizmos.changeScore(-0.1);  
+    expect(Gizmos.getScore()).toBe(0.35);
+    expect(Gizmos.scoreToLetterGrade(Gizmos.getScore())).toBe("F");
 });
-TextDecoderStream("Tolerance tests", () => {
-    expect(ToleranceLevel).toBe(0.1);
-    increaseToleranceLevel();
-    expect(ToleranceLevel).toBe(0.2);
-    decreaseToleranceLevel();
-    expect(ToleranceLevel).toBe(0.1);
+test("Tolerance tests", () => {
+    expect(Gizmos.getToleranceLevel).toBe(0.1);
+    Gizmos.increaseToleranceLevel();
+    expect(Gizmos.getToleranceLevel).toBe(0.2);
+    Gizmos.decreaseToleranceLevel();
+    expect(Gizmos.getToleranceLevel).toBe(0.1);
 });
-TextDecoderStream("Mode tests", () => {
-    expect(stateMachine.currentMode).toBe("idle");
-    setModeToRecord();
-    expect(stateMachine.currentMode).toBe("recording");
-    setModeToCompare();
-    expect(stateMachine.currentMode).toBe("comparing");
-    setModeToRecord();
-    expect(stateMachine.currentMode).toBe("recording");
+test("Mode tests", () => {
+    let mode = getCurrentMode();
+    expect(mode).toBe("idle");
+    Gizmos.setModeToRecord();
+    expect(getCurrentMode()).toBe("recording");
+    Gizmos.setModeToCompare();
+    expect(getCurrentMode()).toBe("comparing");
+    Gizmos.setModeToRecord();
+    expect(getCurrentMode()).toBe("recording");
 });

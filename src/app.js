@@ -1,13 +1,8 @@
-import { Gyro } from "./gyro.js";
-import { Reel } from "./reel.js";
-import { ToleranceLevel } from "./gizmos.js";
+const Gyro = require("./gyro.js");
+const Reel = require("./reel.js");
+const Gizmos = require("./gizmos.js");
 
 //UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
-
-const gyro = new Gyro();
-let masterReel = new Reel();
-let currentFrame = 0;
-
 const StateMachine = {
     currentMode: "idle",
     modes: {
@@ -17,7 +12,14 @@ const StateMachine = {
     },
 }
 const stateMachine = Object.create(StateMachine);
-
+function getCurrentMode(){
+  return stateMachine.currentMode
+}
+module.exports = {getCurrentMode}
+/*
+const gyro = new Gyro();
+let masterReel = new Reel();
+let currentFrame = 0;
 function UpdateLoop(){
   console.log(stateMachine.currentMode);
   switch(stateMachine.currentMode){
@@ -31,7 +33,7 @@ function UpdateLoop(){
     case "comparing":
         if(gyro.isMoving()){
           let gyroFrame = gyro.readArray();
-          let difference = compareGyroFrame(reelFrame,gyroFrame,ToleranceLevel);
+          let difference = compareGyroFrame(reelFrame,gyroFrame,Gizmos.ToleranceLevel);
           changeScore(difference);
           currentFrame++;
         }
@@ -55,3 +57,4 @@ while(true){
         );
     }
 }
+*/

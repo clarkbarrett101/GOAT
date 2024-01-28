@@ -1,7 +1,12 @@
-export { ToleranceLevel};
 
-let ToleranceLevel = 0.1;
+let toleranceLevel = 0.1;
 let score = 0;
+function getScore(){
+    return score
+}
+function getToleranceLevel(){
+    return toleranceLevel
+}
 //TODO: Tolerance functions
 function increaseToleranceLevel(){
 
@@ -30,3 +35,4 @@ function changeScoreDisplay(letter){
 // this function changes the score display to the specified letter grade
 
 }
+module.exports = {getToleranceLevel,getScore,increaseToleranceLevel,decreaseToleranceLevel,changeScore,scoreToLetterGrade,setModeToCompare,setModeToRecord}
