@@ -1,6 +1,6 @@
-import { Reel } from "./reel";
+const Reel = require("./reel.js")
 
-TextDecoderStream("FrameTest", () => {
+test("FrameTest", () => {
     let reel = new Reel();
     frameIdx = 0;
     let frame = [0,0,0];
@@ -12,7 +12,7 @@ TextDecoderStream("FrameTest", () => {
     expect(reel.readFrame(frameIdx)).toBe(newframe);
     expect(reel.readFrame(0)).toBe(frame);
 });
-TextDecoderStream("CompareTest", () => {
+test("CompareTest", () => {
     let gyroFrame = [1,1,2];
     let reelFrame = [1,1,1];
     let frameNumber = 0;

@@ -1,4 +1,3 @@
-export {Reel};
 
 // A Reel is a collection of frames, each frame is a Array[3] of gyro rotation data 
 
@@ -22,3 +21,4 @@ class Reel {
         }
     }
 }
+module.exports = Reel;
