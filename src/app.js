@@ -28,7 +28,7 @@ class Gyro {
       this.isMoving = function(){
       //TODO: isMoving function
       // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
-          
+
       }
       this.testRotation = function(x){
           this.testModifier += x;
@@ -77,7 +77,7 @@ function UpdateLoop(){
           currentFrame++;
         }
       break;
-  }  
+  }
 }
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -92,7 +92,7 @@ while(true){
     let endTime = Date.now();
     deltaTime = endTime - startTime;
     if(deltaTime < 100){
-        sleep(100 - deltaTime).then(() => {}  
+        sleep(100 - deltaTime).then(() => {}
         );
     }
 }
