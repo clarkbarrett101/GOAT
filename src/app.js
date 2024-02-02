@@ -2,8 +2,6 @@
 //const Reel = require("./reel.js");
 //const Gizmos = require("./gizmos.js");
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
-import * as THREE from "three";
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const StateMachine = {
     currentMode: "idle",
     modes: {
@@ -41,28 +39,7 @@ class Gyro {
   }
 }
 const gyro = new Gyro();
-const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xffffff );
-const camera = new THREE.PerspectiveCamera( 75, 400 / 400, 0.1, 1000 );
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth/2, window.innerWidth/2);
-document.getElementById("liveView").appendChild( renderer.domElement );
-const clock = new THREE.Clock();
-const rotationSpeed = .5;
-camera.position.z = 8;
-const light = new THREE.DirectionalLight("0xfffff",5); // soft white light
-light.position.set(0,5,10);
-light.target.position.set(0,0,0);
-scene.add( light );
-const loader = new GLTFLoader();
-let goat = new THREE.Object3D();
-loader.load( 'goat.glb', function ( gltf ) {
-  goat.add(gltf.scene.children[0]);
-  scene.add( goat );
-});
-goat.rotation.y = Math.PI/4;
-goat.rotation.x = Math.PI/8;
+const liveView = document.getElementById("liveView");
 
 window.addEventListener("devicemotion", (event) => {
   gyro.x = event.accelerationIncludingGravity.x;
@@ -71,9 +48,7 @@ window.addEventListener("devicemotion", (event) => {
 });
 function animate() {
 	requestAnimationFrame( animate );
-  goat.rotation.y += gyro.x;
-  goat.rotation.x += gyro.y;
-  goat.rotation.z = gyro.z;
+  liveView.innerText = `x: ${gyro.x.toFixed(2)} y: ${gyro.y.toFixed(2)} z: ${gyro.z.toFixed(2)}`;
 	renderer.render( scene, camera );
 }
 
