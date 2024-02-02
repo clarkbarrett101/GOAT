@@ -2,8 +2,8 @@
 //const Reel = require("./reel.js");
 //const Gizmos = require("./gizmos.js");
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
-import * as THREE from "https://unpkg.com/three/build/three.module.js";
-import { GLTFLoader } from "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "three";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const StateMachine = {
     currentMode: "idle",
     modes: {
