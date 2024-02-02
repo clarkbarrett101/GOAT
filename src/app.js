@@ -2,8 +2,8 @@
 //const Reel = require("./reel.js");
 //const Gizmos = require("./gizmos.js");
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
-import * as THREE from "three";
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import * as THREE from "https://unpkg.com/three/build/three.module.js";
+import { GLTFLoader } from "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js";
 const StateMachine = {
     currentMode: "idle",
     modes: {
@@ -30,7 +30,7 @@ class Gyro {
       this.isMoving = function(){
       //TODO: isMoving function
       // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
-          
+
       }
       this.testRotation = function(x){
           this.testModifier += x;
@@ -102,7 +102,7 @@ function UpdateLoop(){
           currentFrame++;
         }
       break;
-  }  
+  }
 }
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -117,7 +117,7 @@ while(true){
     let endTime = Date.now();
     deltaTime = endTime - startTime;
     if(deltaTime < 100){
-        sleep(100 - deltaTime).then(() => {}  
+        sleep(100 - deltaTime).then(() => {}
         );
     }
 }
