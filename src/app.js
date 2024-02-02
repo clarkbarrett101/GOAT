@@ -44,15 +44,9 @@ const liveView = document.getElementById("liveView");
 window.addEventListener("devicemotion", (event) => {
   gyro.x = event.accelerationIncludingGravity.x;
   gyro.y = event.accelerationIncludingGravity.y;
-  gyro.z = event.accelerationIncludingGravity.z;
-});
-function animate() {
-	requestAnimationFrame( animate );
+  gyro.z = event.accelerationIncludingGravity.z;    
   liveView.innerText = `x: ${gyro.x.toFixed(2)} y: ${gyro.y.toFixed(2)} z: ${gyro.z.toFixed(2)}`;
-	renderer.render( scene, camera );
-}
-
-animate();
+});
 /*
 module.exports = {getCurrentMode}
 
