@@ -59,10 +59,11 @@ addEventListener("click", (event) => {
 function startMotion(){
   console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
-    gyro.x = event.accelerationIncludingGravity.x;
-    gyro.y = event.accelerationIncludingGravity.y;
-    gyro.z = event.accelerationIncludingGravity.z;    
-    liveView.innerText = 'x: '+gyro.x +' y: '+gyro.y+'z: '+gyro.z;
+    gyro.x = (event.accelerationIncludingGravity.x +10)*9;
+    gyro.y = (event.accelerationIncludingGravity.y+10)*9;
+    gyro.z = (event.accelerationIncludingGravity.z+10)*9;    
+    liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z);
+    console.log('x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z));
   })
 }
 /*
