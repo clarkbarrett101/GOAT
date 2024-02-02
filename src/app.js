@@ -40,10 +40,23 @@ class Gyro {
 }
 const gyro = new Gyro();
 const liveView = document.getElementById("liveView");
+addEventListener("click", (event) => {
+  console.log("checking permission");
 if (typeof DeviceMotionEvent.requestPermission === 'function') {
-
+  console.log("requesting permission");
 DeviceMotionEvent.requestPermission().then(response => {
   if (response == 'granted') {
+    console.log("permission granted");
+    startMotion();
+  }
+})
+}else{
+  console.log("no permission needed");
+startMotion();
+}
+});
+function startMotion(){
+  console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
     gyro.x = event.accelerationIncludingGravity.x;
     gyro.y = event.accelerationIncludingGravity.y;
@@ -51,8 +64,6 @@ DeviceMotionEvent.requestPermission().then(response => {
     liveView.innerText = 'x: '+gyro.x +' y: '+gyro.y+'z: '+gyro.z;
   })
 }
-})
-};
 /*
 module.exports = {getCurrentMode}
 
