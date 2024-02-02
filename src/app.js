@@ -40,13 +40,14 @@ class Gyro {
 }
 const gyro = new Gyro();
 const liveView = document.getElementById("liveView");
-
-window.addEventListener("devicemotion", (event) => {
-  gyro.x = event.accelerationIncludingGravity.x;
-  gyro.y = event.accelerationIncludingGravity.y;
-  gyro.z = event.accelerationIncludingGravity.z;    
-  liveView.innerText = `x: ${gyro.x.toFixed(2)} y: ${gyro.y.toFixed(2)} z: ${gyro.z.toFixed(2)}`;
-});
+if (window.DeviceMotionEvent) {
+  window.addEventListener("devicemotion", (event) => {
+    gyro.x = event.accelerationIncludingGravity.x;
+    gyro.y = event.accelerationIncludingGravity.y;
+    gyro.z = event.accelerationIncludingGravity.z;    
+    liveView.innerText = 'x: '+gyro.x +' y: '+gyro.y+'z: '+gyro.z;
+  });
+}
 /*
 module.exports = {getCurrentMode}
 
