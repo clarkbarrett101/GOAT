@@ -9,10 +9,12 @@ function getToleranceLevel(){
 }
 //TODO: Tolerance functions
 function increaseToleranceLevel(){
+    toleranceLevel += 1; 
 
 }
  
 function decreaseToleranceLevel(){
+    toleranceLevel -= 1;
 
 }
 //TODO: Mode functions
