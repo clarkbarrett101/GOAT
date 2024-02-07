@@ -16,6 +16,7 @@ class Gyro {
       //TODO: isMoving function
       // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
       // Function to check if the magnitude of gyro rotations is greater than sensitivity
+
       function isRotationGreaterThanSensitivity(
         gyroX,
         gyroY,
@@ -30,20 +31,15 @@ class Gyro {
         return magnitude > sensitivity;
       }
 
-      // Sample gyro rotation values
-      const gyroX = 2.5;
-      const gyroY = 1.8;
-      const gyroZ = -3.2;
-
       // Sensitivity threshold
       const sensitivity = 4.0;
 
       // Check if the magnitude of gyro rotations is greater than sensitivity
       const result = isRotationGreaterThanSensitivity(
-        gyroX,
-        gyroY,
-        gyroZ,
-        sensitivity
+        this.x,
+        this.y,
+        this.z,
+        this.sensitivity
       );
 
       // Output the result
