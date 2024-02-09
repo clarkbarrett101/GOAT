@@ -2,8 +2,8 @@
 
 <head>
     <title>GOAT Web App</title>
-    <script src="app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./src/app.js" type="module"></script>
     <!--https://tailwindcss.com/docs/border-radius for info-->
 </head>
 
@@ -20,17 +20,17 @@
         </div>
         <div id="middleRow">
             <div id="liveView" class="border-8 border-black">
-                <video src="assets/Bicep Curl.mkv" autoplay loop controls></video>
+                click or tap to start motion capture
             </div> 
             <div id="compareView" class="border-8 border-black">
-
+<video src="assets/Bicep Curl.mkv" autoplay loop controls></video>
             </div>
         </div>
         <div id="bottomRow"  >
-            <div id="recordButton"class="border-8 border-black"class="border-8 border-black">
+            <div id="recordButton" class="border-8 border-black" >
                 record
             </div>
-            <div id="compareButton"class="border-8 border-black"class="border-8 border-black">
+            <div id="compareButton" class="border-8 border-black">
                 compare
             </div>
         </div>

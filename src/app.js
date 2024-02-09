@@ -1,8 +1,7 @@
-const Gyro = require("./gyro.js");
-const Reel = require("./reel.js");
-const Gizmos = require("./gizmos.js");
-
-//UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
+//const Gyro = require("./gyro.js");
+//const Reel = require("./reel.js");
+//const Gizmos = require("./gizmos.js");
+// UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
 const StateMachine = {
     currentMode: "idle",
     modes: {
@@ -15,9 +14,62 @@ const stateMachine = Object.create(StateMachine);
 function getCurrentMode(){
   return stateMachine.currentMode
 }
-module.exports = {getCurrentMode}
-/*
+class Gyro {
+  constructor() {
+      this.testModifier = 0.0;
+      this.sensitivity = 0.1;
+      this.x = 0.0;
+      this.y = 0.0;
+      this.z = 0.0;
+      this.lastRotation = [0.0,0.0,0.0];
+      this.readArray = function(){
+          return [this.x, this.y, this.z];
+      }
+      this.isMoving = function(){
+      //TODO: isMoving function
+      // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
+
+      }
+      this.testRotation = function(x){
+          this.testModifier += x;
+          this.x = Math.sin(this.testModifier);
+          this.y = Math.sin(this.testModifier*2);
+          this.z = Math.sin(this.testModifier/3);
+      }
+  }
+}
 const gyro = new Gyro();
+const liveView = document.getElementById("liveView");
+addEventListener("click", (event) => {
+  console.log("checking permission");
+  if (typeof DeviceMotionEvent.requestPermission === 'function') {
+  console.log("requesting permission");
+    DeviceMotionEvent.requestPermission().then(response => {
+      if (response == 'granted') {
+        console.log("permission granted");
+        startMotion();
+      }
+    })
+  }else{
+    console.log("no permission needed");
+    startMotion();
+  }
+});
+
+function startMotion(){
+  console.log("starting motion");
+  window.addEventListener("devicemotion", (event) => {
+    gyro.x = (event.accelerationIncludingGravity.x +10)*9;
+    gyro.y = (event.accelerationIncludingGravity.y+10)*9;
+    gyro.z = (event.accelerationIncludingGravity.z+10)*9;    
+    liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z);
+    console.log('x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z));
+  })
+}
+/*
+module.exports = {getCurrentMode}
+
+
 let masterReel = new Reel();
 let currentFrame = 0;
 function UpdateLoop(){
@@ -38,7 +90,7 @@ function UpdateLoop(){
           currentFrame++;
         }
       break;
-  }  
+  }
 }
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -53,7 +105,7 @@ while(true){
     let endTime = Date.now();
     deltaTime = endTime - startTime;
     if(deltaTime < 100){
-        sleep(100 - deltaTime).then(() => {}  
+        sleep(100 - deltaTime).then(() => {}
         );
     }
 }
