@@ -17,6 +17,8 @@ class Gyro {
       //TODO: isMoving function
       // this function returns true if the difference between the current rotation and the last rotation that was true has a magnitude greater than the sensitivity level
 
+      //Currently this function returns true if the magnitude of the current rotation is greater than the sensitivity level (as in it only checks if the gyro is off-center)
+
         let magnitude = Math.sqrt(
           this.x * this.x + this.y * this.y + this.z * this.z
         );
