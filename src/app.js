@@ -43,7 +43,7 @@ function startMotion(){
 }
 
 function UpdateLoop(){
-  gyro.testRotation(0.001);
+//  gyro.testRotation(0.001);
   liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+' z: '+Math.round(gyro.z);
   if(gyro.isMoving()){
     liveView.className = "bg-green-400";
