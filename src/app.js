@@ -102,16 +102,8 @@ function animate() {
   }
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-let deltaTime = 0;
-
-requestAnimationFrame(animate);
 requestAnimationFrame(animate);
 
 /*
