@@ -4,7 +4,7 @@
 class Gyro {
   constructor() {
     this.testModifier = 0.0;
-    this.sensitivity = 5;
+    this.sensitivity = 10;
     this.x = 0.0;
     this.y = 0.0;
     this.z = 0.0;
