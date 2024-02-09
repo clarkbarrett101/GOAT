@@ -4,7 +4,7 @@
 class Gyro {
   constructor() {
     this.testModifier = 0.0;
-    this.sensitivity = 5;
+    this.sensitivity = 1;
     this.x = 0.0;
     this.y = 0.0;
     this.z = 0.0;
@@ -18,9 +18,11 @@ class Gyro {
       // this function returns true if the difference between the current rotation and the last rotation that was true has a magnitude greater than the sensitivity level
 
       //Currently this function returns true if the magnitude of the current rotation is greater than the sensitivity level (as in it only checks if the gyro is off-center)
-
+      let difference = [this.x - this.lastRotation[0], this.y - this.lastRotation[1], this.z - this.lastRotation[2]];
         let magnitude = Math.sqrt(
-          this.x * this.x + this.y * this.y + this.z * this.z
+          difference[0] * difference[0] +
+          difference[1] * difference[1] +
+          difference[2] * difference[2]
         );
 
         let result = magnitude > this.sensitivity;

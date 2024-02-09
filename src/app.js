@@ -43,12 +43,12 @@ function startMotion(){
 }
 
 function UpdateLoop(){
-  gyro.testRotation(0.0001);
-  liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z);
+  gyro.testRotation(0.001);
+  liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+' z: '+Math.round(gyro.z);
   if(gyro.isMoving()){
-  liveView.className = "bg-green-400";
+    liveView.className = "bg-green-400";
   }else{
-  liveView.className = "bg-red-500";
+    liveView.className = "bg-red-500";
   }
   requestAnimationFrame(UpdateLoop);
 }
