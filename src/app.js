@@ -63,9 +63,9 @@ function startMotion() {
 }
 
 function animate() {
-  cube.rotation.x = gyro.x;
-  cube.rotation.y = gyro.y;
-  cube.rotation.z = gyro.z;
+  cube.rotation.x = (gyro.x / 180) * Math.PI;
+  cube.rotation.y = (gyro.y / 180) * Math.PI;
+  cube.rotation.z = (gyro.z / 180) * Math.PI;
   switch (stateMachine.currentMode) {
     case "idle":
       break;
@@ -105,48 +105,3 @@ function animate() {
 }
 
 requestAnimationFrame(animate);
-
-/*
-module.exports = {getCurrentMode}
-
-
-let masterReel = new Reel();
-let currentFrame = 0;
-function UpdateLoop(){
-  console.log(stateMachine.currentMode);
-  switch(stateMachine.currentMode){
-    case "idle":
-      break;
-    case "recording":
-        if(gyro.isMoving()){
-          masterReel.addFrame(currentFrame,gyro.readArray());
-        }
-      break;
-    case "comparing":
-        if(gyro.isMoving()){
-          let gyroFrame = gyro.readArray();
-          let difference = compareGyroFrame(reelFrame,gyroFrame,Gizmos.ToleranceLevel);
-          changeScore(difference);
-          currentFrame++;
-        }
-      break;
-  }
-}
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-let deltaTime = 0;
-
-while(true){
-    let startTime = Date.now();
-    UpdateLoop();
-    gyro.testRotation();
-    let endTime = Date.now();
-    deltaTime = endTime - startTime;
-    if(deltaTime < 100){
-        sleep(100 - deltaTime).then(() => {}
-        );
-    }
-}
-*/
