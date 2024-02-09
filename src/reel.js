@@ -16,9 +16,33 @@ class Reel {
 
     // this function compares two frames and returns a number representing the difference between them, adjusted by the tolerance level
     this.compareGyroFrame = function (gyroFrame, frameNumber, toleranceLevel) {
-      let difference = Math.abs(this.frames[frameNumber] - gyroFrame);
-      return difference <= toleranceLevel;
+      // Calculate the dot product of the two vectors
+      const dotProduct =
+        gyroFrame[0] * this.frames[frameNumber][0] +
+        gyroFrame[1] * this.frames[frameNumber][1] +
+        gyroFrame[2] * this.frames[frameNumber][2];
+
+      // Calculate the magnitude (length) of each vector
+      const magnitude1 = Math.sqrt(
+        gyroFrame[0] ** 2 + gyroFrame[1] ** 2 + gyroFrame[2] ** 2
+      );
+      const magnitude2 = Math.sqrt(
+        this.frames[frameNumber][0] ** 2 +
+          this.frames[frameNumber][1] ** 2 +
+          this.frames[frameNumber][2] ** 2
+      );
+
+      // Calculate the cosine of the angle between the vectors
+      const cosAngle = dotProduct / (magnitude1 * magnitude2);
+
+      // Calculate the angle in radians using the arccosine function
+      const angleRadians = Math.acos(cosAngle);
+
+      // Convert the angle to degrees
+      const angleDegrees = (angleRadians * 180) / Math.PI;
+
+      return angleDegrees / toleranceLevel;
     };
   }
 }
-module.exports = Reel;
+export { Reel };
