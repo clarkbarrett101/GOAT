@@ -3,7 +3,6 @@
 class Reel {
   constructor() {
     this.frames = [];
-    //TODO: Read function
     // this function returns a frame from the reel at the specified frame number
     this.readFrame = function (frameNumber) {
       return this.frames[frameNumber];
