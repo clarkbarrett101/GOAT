@@ -1,4 +1,4 @@
-//const Gyro = require("./gyro.js");
+import { Gyro } from "./gyro.js";
 //const Reel = require("./reel.js");
 //const Gizmos = require("./gizmos.js");
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
@@ -14,30 +14,7 @@ const stateMachine = Object.create(StateMachine);
 function getCurrentMode(){
   return stateMachine.currentMode
 }
-class Gyro {
-  constructor() {
-      this.testModifier = 0.0;
-      this.sensitivity = 0.1;
-      this.x = 0.0;
-      this.y = 0.0;
-      this.z = 0.0;
-      this.lastRotation = [0.0,0.0,0.0];
-      this.readArray = function(){
-          return [this.x, this.y, this.z];
-      }
-      this.isMoving = function(){
-      //TODO: isMoving function
-      // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
 
-      }
-      this.testRotation = function(x){
-          this.testModifier += x;
-          this.x = Math.sin(this.testModifier);
-          this.y = Math.sin(this.testModifier*2);
-          this.z = Math.sin(this.testModifier/3);
-      }
-  }
-}
 const gyro = new Gyro();
 const liveView = document.getElementById("liveView");
 addEventListener("click", (event) => {
@@ -62,10 +39,27 @@ function startMotion(){
     gyro.x = (event.accelerationIncludingGravity.x +10)*9;
     gyro.y = (event.accelerationIncludingGravity.y+10)*9;
     gyro.z = (event.accelerationIncludingGravity.z+10)*9;    
-    liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z);
-    console.log('x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z));
   })
 }
+
+function UpdateLoop(){
+  gyro.testRotation(0.0001);
+  liveView.innerText = 'x: '+Math.round(gyro.x) +' y: '+ Math.round(gyro.y)+'z: '+Math.round(gyro.z);
+  if(gyro.isMoving()){
+  liveView.className = "bg-green-400";
+  }else{
+  liveView.className = "bg-red-500";
+  }
+  requestAnimationFrame(UpdateLoop);
+}
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let deltaTime = 0;
+
+requestAnimationFrame(UpdateLoop);
+
 /*
 module.exports = {getCurrentMode}
 

@@ -4,7 +4,7 @@
 class Gyro {
   constructor() {
     this.testModifier = 0.0;
-    this.sensitivity = 0.1;
+    this.sensitivity = 5;
     this.x = 0.0;
     this.y = 0.0;
     this.z = 0.0;
@@ -15,47 +15,25 @@ class Gyro {
 
     this.isMoving = function () {
       //TODO: isMoving function
-      // this function returns true if the magnatutide of the gyro's rotations is greater than the sensitivity value
-      // Function to check if the magnitude of gyro rotations is greater than sensitivity
+      // this function returns true if the difference between the current rotation and the last rotation that was true has a magnitude greater than the sensitivity level
 
-      function isRotationGreaterThanSensitivity(
-        gyroX,
-        gyroY,
-        gyroZ,
-        sensitivity
-      ) {
-        // Calculate the magnitude of gyro rotations
-        const magnitude = Math.sqrt(
-          gyroX * gyroX + gyroY * gyroY + gyroZ * gyroZ
+        let magnitude = Math.sqrt(
+          this.x * this.x + this.y * this.y + this.z * this.z
         );
-        // Check if the magnitude is greater than the sensitivity threshold
-        return magnitude > sensitivity;
-      }
 
-      // Sensitivity threshold
-      const sensitivity = 4.0;
-
-      // Check if the magnitude of gyro rotations is greater than sensitivity
-      const result = isRotationGreaterThanSensitivity(
-        this.x,
-        this.y,
-        this.z,
-        this.sensitivity
-      );
-
-      // Output the result
-      if (result) {
-        console.log("Gyro rotations magnitude is greater than sensitivity");
-      } else {
-        console.log("Gyro rotations magnitude is not greater than sensitivity");
-      }
+        let result = magnitude > this.sensitivity;
+        
+        if (result) {
+          this.lastRotation = [this.x, this.y, this.z];
+        }
+      return result;
     };
     this.testRotation = function (x) {
       this.testModifier += x;
-      this.x = Math.sin(this.testModifier);
-      this.y = Math.sin(this.testModifier * 2);
-      this.z = Math.sin(this.testModifier / 3);
+      this.x = Math.sin(this.testModifier)/Math.PI*180;
+      this.y = Math.sin(this.testModifier * 2)/Math.PI *180;
+      this.z = Math.sin(this.testModifier / 3)/Math.PI *180;
     };
   }
 }
-module.exports = Gyro;
+export {Gyro};
