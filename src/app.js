@@ -55,10 +55,10 @@ addEventListener("click", (event) => {
 
 function startMotion() {
   console.log("starting motion");
-  window.addEventListener("devicemotion", (event) => {
-    gyro.x = event.rotationRate.beta;
-    gyro.y = event.rotationRate.gamma;
-    gyro.z = event.rotationRate.alpha;
+  window.addEventListener("deviceorientation", (event) => {
+    gyro.x = event.beta;
+    gyro.y = event.gamma;
+    gyro.z = event.alpha;
   });
 }
 
