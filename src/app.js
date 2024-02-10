@@ -37,6 +37,9 @@ function getCurrentMode() {
 const gyro = new Gyro();
 const masterReel = new Reel();
 let currentFrame = 0;
+
+const compass = new THREE.Object3D();
+
 addEventListener("click", (event) => {
   console.log("checking permission");
   if (typeof DeviceMotionEvent.requestPermission === "function") {
@@ -56,14 +59,13 @@ addEventListener("click", (event) => {
 function startMotion() {
   console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
-    let newGyro = vectorToEulerAngles(
-      event.accelerationIncludingGravity.x / 9.8,
-      event.accelerationIncludingGravity.y / 9.8,
-      event.accelerationIncludingGravity.z / 9.8
-    );
-    gyro.x = -newGyro.pitch;
-    gyro.y = -newGyro.yaw;
-    gyro.z = -newGyro.roll;
+    compass.position.x = event.accelerationIncludingGravity.x;
+    compass.position.y = event.accelerationIncludingGravity.y;
+    compass.position.z = event.accelerationIncludingGravity.z;
+    cube.lookAt(compass.position);
+    gyro.x = cube.rotation.x * (180 / Math.PI);
+    gyro.y = cube.rotation.y * (180 / Math.PI);
+    gyro.z = cube.rotation.z * (180 / Math.PI);
   });
 }
 function vectorToEulerAngles(x, y, z) {
@@ -74,9 +76,6 @@ function vectorToEulerAngles(x, y, z) {
 }
 
 function animate() {
-  cube.rotation.x = gyro.x;
-  cube.rotation.y = gyro.y;
-  cube.rotation.z = gyro.z;
   switch (stateMachine.currentMode) {
     case "idle":
       break;
