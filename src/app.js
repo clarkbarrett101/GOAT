@@ -61,9 +61,9 @@ function startMotion() {
       event.accelerationIncludingGravity.y / 9.8,
       event.accelerationIncludingGravity.z / 9.8
     );
-    gyro.x = newGyro.yaw;
-    gyro.y = newGyro.pitch;
-    gyro.z = newGyro.roll;
+    gyro.x = -newGyro.pitch;
+    gyro.y = -newGyro.yaw;
+    gyro.z = -newGyro.roll;
   });
 }
 function vectorToEulerAngles(x, y, z) {
