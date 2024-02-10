@@ -56,16 +56,16 @@ addEventListener("click", (event) => {
 function startMotion() {
   console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
-    gyro.x += event.rotationRate.beta;
-    gyro.y += event.rotationRate.gamma;
-    gyro.z += event.rotationRate.alpha;
+    gyro.x = (event.accelerationIncludingGravity.x / 9.8) * Math.PI;
+    gyro.y = (event.accelerationIncludingGravity.y / 9.8) * Math.PI;
+    gyro.z = (event.accelerationIncludingGravity.z / 9.8) * Math.PI;
   });
 }
 
 function animate() {
-  cube.rotation.x = (gyro.x / 180) * Math.PI;
-  cube.rotation.y = (gyro.y / 180) * Math.PI;
-  cube.rotation.z = (gyro.z / 180) * Math.PI;
+  cube.rotation.x = gyro.x;
+  cube.rotation.y = gyro.y;
+  cube.rotation.z = gyro.z;
   switch (stateMachine.currentMode) {
     case "idle":
       break;
