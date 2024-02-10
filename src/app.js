@@ -12,11 +12,12 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(600, 600);
 const compareView = document.getElementById("compareView");
 compareView.appendChild(renderer.domElement);
-const geometry = new THREE.BoxGeometry();
+const geometry = new THREE.ConeGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const cube = new THREE.Mesh(geometry, material);
-cube.rotation.y = 0.5;
-cube.rotation.x = 0.5;
+const cylinder = new THREE.Mesh(geometry, material);
+const cube = new THREE.Object3D();
+cube.add(cylinder);
+cylinder.rotation.x = -Math.PI / 2;
 scene.add(cube);
 camera.position.z = 2;
 
@@ -39,6 +40,8 @@ const masterReel = new Reel();
 let currentFrame = 0;
 
 const compass = new THREE.Object3D();
+compass.position.y = -9.8;
+cube.lookAt(compass.position);
 
 addEventListener("click", (event) => {
   console.log("checking permission");
