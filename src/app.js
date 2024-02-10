@@ -56,10 +56,21 @@ addEventListener("click", (event) => {
 function startMotion() {
   console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
-    gyro.x = (event.accelerationIncludingGravity.x / 9.8) * Math.PI;
-    gyro.y = (event.accelerationIncludingGravity.y / 9.8) * Math.PI;
-    gyro.z = (event.accelerationIncludingGravity.z / 9.8) * Math.PI;
+    let newGyro = vectorToEulerAngles(
+      event.accelerationIncludingGravity.x / 9.8,
+      event.accelerationIncludingGravity.y / 9.8,
+      event.accelerationIncludingGravity.z / 9.8
+    );
+    gyro.x = newGyro.yaw;
+    gyro.y = newGyro.pitch;
+    gyro.z = newGyro.roll;
   });
+}
+function vectorToEulerAngles(x, y, z) {
+  let pitch = Math.asin(-y);
+  let yaw = Math.atan2(x, z);
+  let roll = Math.atan2(y, x);
+  return { pitch, yaw, roll };
 }
 
 function animate() {
