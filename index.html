@@ -2,7 +2,8 @@
 
 <head>
     <title>GOAT Web App</title>
-    <script src="app.js"></script>
+    <script src="src/app.js"></script>
+    <script src="src/gizmos.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!--https://tailwindcss.com/docs/border-radius for info-->
 </head>
@@ -11,10 +12,71 @@
     <div id="backgroundLayer" class="border-8 border-black">
         <div id="topRow"></div>
             <image src="assets/PlaceholderLogo.png" id="goat"></image>
-            <div id="scoreDisplay" class="border-8 border-black">
+            <div id="scoreDisplay" onclick="" class="border-8 border-black rounded-3xl">
                 Score:
+                <div id="letter" class="">S</div>
             </div>
-            <div id="toleranceMeter" class="border-8 border-black">
+            <div id="toleranceMeter" class="border-8 border-black">/* Score Display */
+
+                position: absolute;
+                width: 263px;
+                height: 269px;
+                left: 464px;
+                top: 98px;
+                
+                
+                
+                /* Rectangle 6 */
+                
+                box-sizing: border-box;
+                
+                position: absolute;
+                width: 263px;
+                height: 269px;
+                left: 464px;
+                top: 98px;
+                
+                background: #D9D9D9;
+                border: 6px solid #450A0A;
+                border-radius: 24px;
+                
+                
+                /* Score: */
+                
+                position: absolute;
+                width: 193px;
+                height: 77px;
+                left: 501px;
+                top: 133px;
+                
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 64px;
+                line-height: 77px;
+                
+                color: #083344;
+                
+                
+                
+                /* S */
+                
+                position: absolute;
+                width: 85px;
+                height: 155px;
+                left: 553px;
+                top: 210px;
+                
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 800;
+                font-size: 128px;
+                line-height: 155px;
+                /* identical to box height */
+                
+                color: #450A0A;
+                
+                
                 Tolerance
             </div>
         </div>
