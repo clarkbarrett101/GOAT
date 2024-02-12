@@ -5,23 +5,35 @@ import * as THREE from "https://unpkg.com/three/build/three.module.js";
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
 
 const scene = new THREE.Scene();
+const scene2 = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
+scene2.background = new THREE.Color(0xffffff);
 scene.fog = new THREE.Fog(0xffffff, 0, 3);
+scene2.fog = new THREE.Fog(0xffffff, 0, 3);
 const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
+const camera2 = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
+const renderer2 = new THREE.WebGLRenderer();
 renderer.setSize(600, 600);
+renderer2.setSize(600, 600);
+const liveView = document.getElementById("liveView");
+liveView.appendChild(renderer.domElement);
 const compareView = document.getElementById("compareView");
-compareView.appendChild(renderer.domElement);
+compareView.appendChild(renderer2.domElement);
 const geometry = new THREE.ConeGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const cylinder = new THREE.Mesh(geometry, material);
+const cube2 = new THREE.Mesh(geometry, material2);
 const cube = new THREE.Object3D();
 cube.add(cylinder);
 cylinder.rotation.x = -Math.PI / 2;
 scene.add(cube);
+scene2.add(cube2);
+scene2.add(camera2);
 camera.position.z = 2;
+camera2.position.z = 2;
 
-const liveView = document.getElementById("liveView");
 const StateMachine = {
   currentMode: "recording",
   modes: {
@@ -101,19 +113,8 @@ function animate() {
       }
       break;
   }
-  liveView.innerText =
-    "x: " +
-    Math.round(gyro.x) +
-    " y: " +
-    Math.round(gyro.y) +
-    " z: " +
-    Math.round(gyro.z);
-  if (gyro.isMoving()) {
-    liveView.className = "bg-green-400";
-  } else {
-    liveView.className = "bg-red-500";
-  }
   renderer.render(scene, camera);
+  renderer2.render(scene2, camera2);
   requestAnimationFrame(animate);
 }
 
