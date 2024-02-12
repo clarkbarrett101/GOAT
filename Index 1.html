@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GOAT Web App</title>
+    <style>
+        /* Define custom styles for buttons */
+        .button {
+            width: 100px;
+            height: 50px;
+            border: 2px solid black;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .record-mode-button {
+            width: 300px;
+            height: 150px;
+            border: 2px solid black;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
+
+        .record-circle-button {
+            width: 100px;
+            height: 105px;
+            border-radius: 50%;
+            background-color: red;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .compare-mode-button {
+            width: 300px;
+            height: 150px;
+            border: 2px solid black;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: skyblue;
+        }
+
+        .reel-filming-object {
+            width: 140px;
+            height: 145px;
+            background-color: skyblue;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .round-object-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: blue;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="backgroundLayer" class="border-8 border-black">
+        <div id="topRow">
+            <img src="assets/PlaceholderLogo.png" id="goat">
+            <div id="scoreDisplay" class="border-8 border-black">
+                Score:
+            </div>
+            <div id="toleranceMeter" class="border-8 border-black">
+                Tolerance
+            </div>
+        </div>
+        <div id="middleRow">
+            <div id="liveView" class="border-8 border-black">
+                <video src="assets/Bicep Curl.mkv" autoplay loop controls></video>
+            </div>
+            <div id="compareView" class="border-8 border-black">
+            </div>
+        </div>
+        <div id="bottomRow">
+            <!-- Record Mode Button -->
+            <div id="recordModeButton" class="record-mode-button" onclick="toggleRecordMode()">
+                <div class="record-circle-button">
+                </div>
+                <span>Record Mode OFF</span>
+            </div>
+
+            <!-- Compare Mode Button -->
+            <div id="compareModeButton" class="compare-mode-button" onclick="toggleCompareMode()">
+                <div class="reel-filming-object">
+                </div>
+                <div class="round-object-button">
+                </div>
+                <span>Compare Mode OFF</span>
+            </div>
+
+            <!-- Mode Switch Button -->
+            <div id="modeSwitchButton" class="button mode-switch-button" onclick="toggleMode()">
+                Mode
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var recordMode = false;
+        var compareMode = false;
+
+        // Function to toggle the record mode
+        function toggleRecordMode() {
+            recordMode = !recordMode;
+            updateButtonState("recordModeButton", recordMode, "Record");
+        }
+
+        // Function to toggle the compare mode
+        function toggleCompareMode() {
+            compareMode = !compareMode;
+            updateButtonState("compareModeButton", compareMode, "Compare");
+        }
+
+        // Function to toggle between record and compare modes
+        function toggleMode() {
+            if (recordMode) {
+                toggleRecordMode();
+                toggleCompareMode();
+                updateButtonState("modeSwitchButton", recordMode, "Record Mode");
+            } else {
+                toggleCompareMode();
+                toggleRecordMode();
+                updateButtonState("modeSwitchButton", recordMode, "Compare Mode");
+            }
+        }
+
+        // Function to update button state based on mode
+        function updateButtonState(buttonId, mode, buttonText) {
+            var button = document.getElementById(buttonId);
+            var buttonSpan = button.querySelector("span");
+            buttonSpan.innerText = buttonText + (mode ? " ON" : " OFF");
+            button.style.backgroundColor = mode ? (buttonId === "recordModeButton" ? "red" : "blue") : (buttonId === "recordModeButton" ? "white" : "skyblue");
+            buttonSpan.style.color = mode ? "white" : "black";
+            button.querySelectorAll(".record-circle-button, .reel-filming-object, .round-object-button").forEach(function (el) {
+                el.style.backgroundColor = mode ? (buttonId === "recordModeButton" ? "white" : "blue") : (buttonId === "recordModeButton" ? "red" : "skyblue");
+            });
+        }
+    </script>
+</body>
+
+</html>
