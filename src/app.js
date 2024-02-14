@@ -1,15 +1,21 @@
 import { Gyro } from "./gyro.js";
 import { Reel } from "./reel.js";
-import {} from "./gizmos.js";
+import {
+  changeScore,
+  getToleranceLevel,
+  setModeToCompare,
+  setModeToRecord,
+} from "./gizmos.js";
 import * as THREE from "https://unpkg.com/three/build/three.module.js";
+import { randFloat } from "three/src/math/MathUtils.js";
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
 
 const scene = new THREE.Scene();
 const scene2 = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
-scene2.background = new THREE.Color(0xffffff);
-scene.fog = new THREE.Fog(0xffffff, 0, 3);
-scene2.fog = new THREE.Fog(0xffffff, 0, 3);
+scene.background = new THREE.Color(0xffeeee);
+scene2.background = new THREE.Color(0xeeeeff);
+scene.fog = new THREE.Fog(0xffeeee, 0, 3);
+scene2.fog = new THREE.Fog(0xeeeeff, 0, 3);
 const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const camera2 = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
@@ -21,13 +27,16 @@ liveView.appendChild(renderer.domElement);
 const compareView = document.getElementById("compareView");
 compareView.appendChild(renderer2.domElement);
 const geometry = new THREE.ConeGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const cylinder = new THREE.Mesh(geometry, material);
-const cube2 = new THREE.Mesh(geometry, material2);
+const cylinder2 = new THREE.Mesh(geometry, material2);
+const cube2 = new THREE.Object3D();
 const cube = new THREE.Object3D();
 cube.add(cylinder);
+cube2.add(cylinder2);
 cylinder.rotation.x = -Math.PI / 2;
+cylinder2.rotation.x = -Math.PI / 2;
 scene.add(cube);
 scene2.add(cube2);
 scene2.add(camera2);
@@ -43,6 +52,12 @@ const StateMachine = {
   },
 };
 const stateMachine = Object.create(StateMachine);
+document.getElementById("recordButton").addEventListener("click", () => {
+  setModeToRecord(stateMachine);
+});
+document.getElementById("compareButton").addEventListener("click", () => {
+  setModeToCompare(stateMachine);
+});
 function getCurrentMode() {
   return stateMachine.currentMode;
 }
@@ -52,65 +67,90 @@ const masterReel = new Reel();
 let currentFrame = 0;
 
 const compass = new THREE.Object3D();
+scene.add(compass);
+const compass2 = new THREE.Object3D();
+scene2.add(compass2);
 compass.position.y = -9.8;
 cube.lookAt(compass.position);
 
+let motionSet = false;
+
 addEventListener("click", (event) => {
-  console.log("checking permission");
-  if (typeof DeviceMotionEvent.requestPermission === "function") {
-    console.log("requesting permission");
-    DeviceMotionEvent.requestPermission().then((response) => {
-      if (response == "granted") {
-        console.log("permission granted");
-        startMotion();
-      }
-    });
-  } else {
-    console.log("no permission needed");
-    startMotion();
+  if (!motionSet) {
+    motionSet = true;
+    console.log("checking permission");
+    if (typeof DeviceMotionEvent.requestPermission === "function") {
+      console.log("requesting permission");
+      DeviceMotionEvent.requestPermission().then((response) => {
+        if (response == "granted") {
+          console.log("permission granted");
+          startMotion();
+        }
+      });
+    } else {
+      console.log("no permission needed");
+      startMotion();
+    }
   }
 });
 
 function startMotion() {
   console.log("starting motion");
   window.addEventListener("devicemotion", (event) => {
-    compass.position.x = event.accelerationIncludingGravity.x;
-    compass.position.y = event.accelerationIncludingGravity.y;
-    compass.position.z = event.accelerationIncludingGravity.z;
+    compass.position.x = event.accelerationIncludingGravity.x / 3;
+    compass.position.y = event.accelerationIncludingGravity.y / 3;
+    compass.position.z = event.accelerationIncludingGravity.z / 3;
     cube.lookAt(compass.position);
-    gyro.x = cube.rotation.x * (180 / Math.PI);
-    gyro.y = cube.rotation.y * (180 / Math.PI);
-    gyro.z = cube.rotation.z * (180 / Math.PI);
+    gyro.x = compass.position.x;
+    gyro.y = compass.position.y;
+    gyro.z = compass.position.z;
   });
 }
-function vectorToEulerAngles(x, y, z) {
-  let pitch = Math.asin(-y);
-  let yaw = Math.atan2(x, z);
-  let roll = Math.atan2(y, x);
-  return { pitch, yaw, roll };
-}
 
+let clock = new THREE.Clock();
+let frameDisplay = document.getElementById("frame");
+let maxFrame = 0;
 function animate() {
+  compass.position.x = gyro.x;
+  compass.position.y = gyro.y;
+  compass.position.z = gyro.z;
+  cube.lookAt(compass.position);
   switch (stateMachine.currentMode) {
     case "idle":
+      currentFrame = 0;
+      maxFrame = masterReel.frames.length;
+      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
     case "recording":
       if (gyro.isMoving()) {
         masterReel.addFrame(currentFrame, gyro.readArray());
-        console.log(masterReel.readFrame(currentFrame));
         currentFrame++;
+        frameDisplay.innerHTML = "0/" + currentFrame;
       }
+      compass2.position.clone(compass.position);
+      cube2.lookAt(compass2.position);
       break;
     case "comparing":
       if (gyro.isMoving()) {
         let gyroFrame = gyro.readArray();
-        let difference = masterReel.compareGyroFrame(
-          gyroFrame,
-          getToleranceLevel()
+        let reelFrame = masterReel.readFrame(currentFrame);
+        compass2.position.x = reelFrame[0];
+        compass2.position.y = reelFrame[1];
+        compass2.position.z = reelFrame[2];
+        cube2.lookAt(compass2.position);
+        changeScore(
+          masterReel.compareGyroFrame(
+            gyroFrame,
+            currentFrame,
+            getToleranceLevel()
+          )
         );
-        changeScore(difference);
         currentFrame++;
       }
+      if (currentFrame >= maxFrame) {
+        stateMachine.currentMode = "idle";
+      }
+      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
   }
   renderer.render(scene, camera);
