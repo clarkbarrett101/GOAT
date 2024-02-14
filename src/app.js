@@ -8,7 +8,6 @@ import {
 } from "./gizmos.js";
 import * as THREE from "https://unpkg.com/three/build/three.module.js";
 import { randFloat } from "three/src/math/MathUtils.js";
-import { randFloat } from "three/src/math/MathUtils.js";
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
 
 const scene = new THREE.Scene();
@@ -34,11 +33,7 @@ compareView.appendChild(renderer2.domElement);
 const geometry = new THREE.ConeGeometry();
 const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const cylinder = new THREE.Mesh(geometry, material);
-const cylinder2 = new THREE.Mesh(geometry, material2);
-const cube2 = new THREE.Object3D();
 const cylinder2 = new THREE.Mesh(geometry, material2);
 const cube2 = new THREE.Object3D();
 const cube = new THREE.Object3D();
@@ -86,9 +81,6 @@ const compass = new THREE.Object3D();
 scene.add(compass);
 const compass2 = new THREE.Object3D();
 scene2.add(compass2);
-scene.add(compass);
-const compass2 = new THREE.Object3D();
-scene2.add(compass2);
 compass.position.y = -9.8;
 cube.lookAt(compass.position);
 
@@ -110,20 +102,21 @@ addEventListener("click", (event) => {
       console.log("no permission needed");
       startMotion();
     }
-  if (!motionSet) {
-    motionSet = true;
-    console.log("checking permission");
-    if (typeof DeviceMotionEvent.requestPermission === "function") {
-      console.log("requesting permission");
-      DeviceMotionEvent.requestPermission().then((response) => {
-        if (response == "granted") {
-          console.log("permission granted");
-          startMotion();
-        }
-      });
-    } else {
-      console.log("no permission needed");
-      startMotion();
+    if (!motionSet) {
+      motionSet = true;
+      console.log("checking permission");
+      if (typeof DeviceMotionEvent.requestPermission === "function") {
+        console.log("requesting permission");
+        DeviceMotionEvent.requestPermission().then((response) => {
+          if (response == "granted") {
+            console.log("permission granted");
+            startMotion();
+          }
+        });
+      } else {
+        console.log("no permission needed");
+        startMotion();
+      }
     }
   }
 });
@@ -147,11 +140,6 @@ function startMotion() {
   });
 }
 
-let clock = new THREE.Clock();
-let frameDisplay = document.getElementById("frame");
-let maxFrame = 0;
-
-let clock = new THREE.Clock();
 let frameDisplay = document.getElementById("frame");
 let maxFrame = 0;
 function animate() {
@@ -164,36 +152,19 @@ function animate() {
       currentFrame = 0;
       maxFrame = masterReel.frames.length;
       frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
-      currentFrame = 0;
-      maxFrame = masterReel.frames.length;
-      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
     case "recording":
       if (gyro.isMoving()) {
         masterReel.addFrame(currentFrame, gyro.readArray());
         currentFrame++;
         frameDisplay.innerHTML = "0/" + currentFrame;
-        frameDisplay.innerHTML = "0/" + currentFrame;
       }
-      compass2.position.clone(compass.position);
-      cube2.lookAt(compass2.position);
       compass2.position.clone(compass.position);
       cube2.lookAt(compass2.position);
       break;
     case "comparing":
       if (gyro.isMoving()) {
         let gyroFrame = gyro.readArray();
-        let reelFrame = masterReel.readFrame(currentFrame);
-        compass2.position.x = reelFrame[0];
-        compass2.position.y = reelFrame[1];
-        compass2.position.z = reelFrame[2];
-        cube2.lookAt(compass2.position);
-        changeScore(
-          masterReel.compareGyroFrame(
-            gyroFrame,
-            currentFrame,
-            getToleranceLevel()
-          )
         let reelFrame = masterReel.readFrame(currentFrame);
         compass2.position.x = reelFrame[0];
         compass2.position.y = reelFrame[1];
