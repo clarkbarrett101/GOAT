@@ -7,7 +7,6 @@ import {
   setModeToRecord,
 } from "./gizmos.js";
 import * as THREE from "https://unpkg.com/three/build/three.module.js";
-import { randFloat } from "three/src/math/MathUtils.js";
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
 
 const scene = new THREE.Scene();
