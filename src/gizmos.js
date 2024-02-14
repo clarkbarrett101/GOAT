@@ -1,5 +1,5 @@
-let toleranceLevel = 0.1;
-let score = 0;
+let toleranceLevel = 1;
+let score = 1;
 function getScore() {
   return score;
 }
@@ -11,18 +11,50 @@ function increaseToleranceLevel() {}
 
 function decreaseToleranceLevel() {}
 //TODO: Mode functions
-function setModeToRecord() {}
+function setModeToRecord(stateMachine) {
+  if (
+    stateMachine.currentMode == "recording" ||
+    stateMachine.currentMode == "comparing"
+  ) {
+    stateMachine.currentMode = "idle";
+  } else {
+    stateMachine.currentMode = "recording";
+  }
+  console.log(stateMachine.currentMode);
+}
 
-function setModeToCompare() {}
+function setModeToCompare(stateMachine) {
+  if (
+    stateMachine.currentMode == "recording" ||
+    stateMachine.currentMode == "comparing"
+  ) {
+    stateMachine.currentMode = "idle";
+  } else {
+    stateMachine.currentMode = "comparing";
+  }
+  console.log(stateMachine.currentMode);
+}
 //TODO: Score function
-function changeScore() {
-  // this function changes the score by the specified amount
+function changeScore(change) {
+  scoreToLetterGrade(change);
 }
 function scoreToLetterGrade(score) {
-  // this function converts the score to a letter grade {S(.9+),A(.8),B(.7),C(.6),D(.5),F(.4-)}
+  let letter = "S";
+  if (score < 0.5) {
+    letter = "F";
+  } else if (score < 0.6) {
+    letter = "D";
+  } else if (score < 0.7) {
+    letter = "C";
+  } else if (score < 0.8) {
+    letter = "B";
+  } else if (score < 0.9) {
+    letter = "A";
+  }
+  changeScoreDisplay(letter);
 }
 function changeScoreDisplay(letter) {
-  // this function changes the score display to the specified letter grade
+  document.getElementById("score").innerHTML = letter;
 }
 export {
   getToleranceLevel,

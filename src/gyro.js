@@ -3,7 +3,7 @@
 class Gyro {
   constructor() {
     this.testModifier = 0.0;
-    this.sensitivity = 10;
+    this.sensitivity = 0.05;
     this.x = 0.0;
     this.y = 0.0;
     this.z = 0.0;
@@ -34,9 +34,9 @@ class Gyro {
     };
     this.testRotation = function (x) {
       this.testModifier += x;
-      this.x = (Math.sin(this.testModifier) / Math.PI) * 180;
-      this.y = (Math.sin(this.testModifier * 2) / Math.PI) * 180;
-      this.z = (Math.sin(this.testModifier / 3) / Math.PI) * 180;
+      this.x = Math.sin(this.testModifier) * 3 + 1;
+      this.y = Math.sin(this.testModifier * 2) * 3 + 1;
+      this.z = Math.sin(this.testModifier / 3) * 3 + 1;
     };
   }
 }
