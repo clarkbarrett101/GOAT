@@ -15,10 +15,6 @@ scene.background = new THREE.Color(0xffeeee);
 scene2.background = new THREE.Color(0xeeeeff);
 scene.fog = new THREE.Fog(0xffeeee, 0, 3);
 scene2.fog = new THREE.Fog(0xeeeeff, 0, 3);
-scene.background = new THREE.Color(0xffeeee);
-scene2.background = new THREE.Color(0xeeeeff);
-scene.fog = new THREE.Fog(0xffeeee, 0, 3);
-scene2.fog = new THREE.Fog(0xeeeeff, 0, 3);
 const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const camera2 = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
@@ -38,7 +34,6 @@ const cube2 = new THREE.Object3D();
 const cube = new THREE.Object3D();
 cube.add(cylinder);
 cube2.add(cylinder2);
-cube2.add(cylinder2);
 cylinder.rotation.x = -Math.PI / 2;
 cylinder2.rotation.x = -Math.PI / 2;
 scene.add(cube);
@@ -56,12 +51,6 @@ const StateMachine = {
   },
 };
 const stateMachine = Object.create(StateMachine);
-document.getElementById("recordButton").addEventListener("click", () => {
-  setModeToRecord(stateMachine);
-});
-document.getElementById("compareButton").addEventListener("click", () => {
-  setModeToCompare(stateMachine);
-});
 document.getElementById("recordButton").addEventListener("click", () => {
   setModeToRecord(stateMachine);
 });
@@ -126,13 +115,7 @@ function startMotion() {
     compass.position.x = event.accelerationIncludingGravity.x / 3;
     compass.position.y = event.accelerationIncludingGravity.y / 3;
     compass.position.z = event.accelerationIncludingGravity.z / 3;
-    compass.position.x = event.accelerationIncludingGravity.x / 3;
-    compass.position.y = event.accelerationIncludingGravity.y / 3;
-    compass.position.z = event.accelerationIncludingGravity.z / 3;
     cube.lookAt(compass.position);
-    gyro.x = compass.position.x;
-    gyro.y = compass.position.y;
-    gyro.z = compass.position.z;
     gyro.x = compass.position.x;
     gyro.y = compass.position.y;
     gyro.z = compass.position.z;
@@ -182,11 +165,6 @@ function animate() {
         stateMachine.currentMode = "idle";
       }
       frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
-      if (currentFrame >= maxFrame) {
-        stateMachine.currentMode = "idle";
-      }
-      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
-      break;
   }
   renderer.render(scene, camera);
   renderer2.render(scene2, camera2);
