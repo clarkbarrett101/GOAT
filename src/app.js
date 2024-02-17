@@ -5,9 +5,31 @@ import {
   getToleranceLevel,
   setModeToCompare,
   setModeToRecord,
+  increaseToleranceLevel,
+  decreaseToleranceLevel,
 } from "./gizmos.js";
 import * as THREE from "https://unpkg.com/three/build/three.module.js";
 // UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
+
+document.getElementById("plusTolerance").addEventListener("click", () => {
+  increaseToleranceLevel();
+  document.getElementById("frame").innerHTML =
+    Math.round(10 * getToleranceLevel()) / 10;
+});
+document.getElementById("minusTolerance").addEventListener("click", () => {
+  decreaseToleranceLevel();
+  document.getElementById("frame").innerHTML =
+    Math.round(10 * getToleranceLevel()) / 10;
+});
+
+const recordButton = document.getElementById("recordButton");
+const compareButton = document.getElementById("compareButton");
+recordButton.addEventListener("click", () => {
+  setModeToRecord(stateMachine);
+});
+compareButton.addEventListener("click", () => {
+  setModeToCompare(stateMachine);
+});
 
 const scene = new THREE.Scene();
 const scene2 = new THREE.Scene();
@@ -56,21 +78,7 @@ const StateMachine = {
   },
 };
 const stateMachine = Object.create(StateMachine);
-document.getElementById("recordButton").addEventListener("click", () => {
-  setModeToRecord(stateMachine);
-});
-document.getElementById("compareButton").addEventListener("click", () => {
-  setModeToCompare(stateMachine);
-});
-document.getElementById("recordButton").addEventListener("click", () => {
-  setModeToRecord(stateMachine);
-});
-document.getElementById("compareButton").addEventListener("click", () => {
-  setModeToCompare(stateMachine);
-});
-function getCurrentMode() {
-  return stateMachine.currentMode;
-}
+stateMachine.currentMode = "idle";
 
 const gyro = new Gyro();
 const masterReel = new Reel();
@@ -126,13 +134,7 @@ function startMotion() {
     compass.position.x = event.accelerationIncludingGravity.x / 3;
     compass.position.y = event.accelerationIncludingGravity.y / 3;
     compass.position.z = event.accelerationIncludingGravity.z / 3;
-    compass.position.x = event.accelerationIncludingGravity.x / 3;
-    compass.position.y = event.accelerationIncludingGravity.y / 3;
-    compass.position.z = event.accelerationIncludingGravity.z / 3;
     cube.lookAt(compass.position);
-    gyro.x = compass.position.x;
-    gyro.y = compass.position.y;
-    gyro.z = compass.position.z;
     gyro.x = compass.position.x;
     gyro.y = compass.position.y;
     gyro.z = compass.position.z;
@@ -150,13 +152,11 @@ function animate() {
     case "idle":
       currentFrame = 0;
       maxFrame = masterReel.frames.length;
-      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
     case "recording":
       if (gyro.isMoving()) {
         masterReel.addFrame(currentFrame, gyro.readArray());
         currentFrame++;
-        frameDisplay.innerHTML = "0/" + currentFrame;
       }
       compass2.position.clone(compass.position);
       cube2.lookAt(compass2.position);
@@ -179,13 +179,8 @@ function animate() {
         currentFrame++;
       }
       if (currentFrame >= maxFrame) {
-        stateMachine.currentMode = "idle";
+        compareButton.click();
       }
-      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
-      if (currentFrame >= maxFrame) {
-        stateMachine.currentMode = "idle";
-      }
-      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
   }
   renderer.render(scene, camera);
