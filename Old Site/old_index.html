@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <title>GOAT Web App</title>
+    <link href="./src/output.css" rel="stylesheet">
+    <script src="./src/app.js" type="module"></script>
+    <!--https://tailwindcss.com/docs/border-radius for info-->
+</head>
+
+<body class="bg-red-900 w-screen text-4xl text-center font-mono">
+    <div id="backgroundLayer" class="rounded-3xl absolute top-12 left-12 bg-red-100">
+        <div id="topRow" class="flex flex-row justify-between">
+            <image src="assets/PlaceholderLogo.png" id="goat" class="w-1/3"></image>
+            <div id="scoreDisplay" class="m-3 rounded-xl border-8 border-red-900 w-1/3">
+                Score:
+                <div id="score" class="text-9xl p-20">S</div>
+            </div>
+            <div id="toleranceMeter" class="m-3 rounded-xl border-8 border-red-900 w-1/3">
+                Tolerance Level:
+                <div id="frame" class="text-8xl p-10">1</div>
+                <div class="flex flex-row justify-around w-fit">
+                    <input type="image" src="assets/plus_icon.png" id="plusTolerance" class="w-1/3"></input>
+                    <input type="image" src="assets/minus_icon.png" id="minusTolerance" class="w-1/3"></input>
+                </div>
+            </div>
+        </div>
+        <div id="middleRow" class="flex flex-row">
+            <div id="liveView" class="m-3 rounded-xl border-8 border-red-900 w-1/2">
+                Live View
+            </div> 
+            <div id="compareView" class="m-3 rounded-xl border-8 border-blue-900 w-1/2">
+                Recorded View
+            </div>
+        </div>
+        <div id="bottomRow" class="flex flex-row justify-around  align-middle h-full" >
+            <button id="recordButton" class="m-3 rounded-full border-8 border-red-900 w-fit h-full text-red-900 bg-white font-extrabold flex flex-row">
+                <img id="record_icon" class="w-auto h-24 p-3" src="assets/record_inactive.png"></img>
+                <div id="record_text" class="p-7 h-full">
+                    record
+                </div>
+            </button>
+            <button id="compareButton" class="m-3 rounded-full border-8 border-blue-900 w-fit text-blue-900 bg-white font-extrabold flex flex-row h-fit opacity-25">
+                <img id="compare_icon" class="h-24 p-2" src="assets/compare_inactive.png"></img>
+                <div id = "compare_text" class="p-7 h-full">
+                    compare
+                </div>
+            </button>
+        </div>
+    </div>
+    <div class="m-3 rounded-full border-8 border-white w-fit text-white bg-blue-900 " hidden></div>
+    <div class="m-3 rounded-full border-8 border-white w-fit text-white bg-red-900 " hidden></div>
+</body>
+
+</html>
