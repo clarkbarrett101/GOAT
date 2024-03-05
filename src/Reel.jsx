@@ -15,6 +15,7 @@ class Reel {
     this.addFrame = (frameIdx, frame) => {
       reel[frameIdx] = frame;
     };
+
     this.getFrame = (index) => {
       return this.reel[index];
     };
@@ -62,6 +63,33 @@ class Reel {
       }
       return this.letters[i];
     };
+
+    
+
+    this.addFrame(frame) = () => {
+      this.frames.push(frame);
+      if (this.checkForRepeat(frame)) {
+          console.log("Switching to compare mode");
+      }
+  }
+
+  checkForRepeat(currentFrame) = () => {
+      if (this.frames.length < 2) {
+          return false;
+      }
+
+      let isRepeat = false;
+      let firstFrame = this.frames[0];
+      let diff = 0;
+
+      for (let i = 0; i < 3; i++) {
+          diff += Math.abs(currentFrame[i] - firstFrame[i]);
+      }
+
+      if (diff <= this.checkSensitivity) {
+          isRepeat = true;
+      }
+
+      return isRepeat;
   }
 }
-export default Reel;
