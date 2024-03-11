@@ -12,18 +12,61 @@ class Reel {
     this.letters = ["S", "A", "B", "C", "D", "F"];
     this.minScore = 0;
     this.maxScore = 100;
-    this.addFrame = (frameIdx, frame) => {
-      reel[frameIdx] = frame;
-    };
+    this.checkSensitivity = 0.05;
+    this.calibrationReadings = [];
+    this.calibrationTimer = 30;
+    this.offset = [0.0, 0.0, 0.0]; 
+
+
+    addFrame =  (frame) => {
+      if (this.mode === "calibrate") {
+        this.calibrate(frame);
+      } else {
+        this.frames.push(frame);
+        if (this.checkForRepeat(frame)) {
+          console.log("Switching to compare mode");
+        }
+      }
+    }
+  this.calibrate = (frame) =>{
+    this.calibrateTimer--;
+
+    if (calibrateTimer > 0) {
+
+      this.calibrationReadings.push(frame);
+      return false; 
+
+    }else{
+      const sums = this.calibrationReadings.reduce((acc, val) => [acc[0] + val[0], acc[1] + val[1], acc[2] + val[2]], [0, 0, 0]);
+      this.offset = sums.map(sum => sum / this.calibrationReadings.length);
+
+
+      //reset timer and clear the calibration
+      this.calibrationReadings = [];
+      this.calibrateTimer = 30;
+      this.mode = "normal";
+
+      console.log("Calibration Complete. Offset:", this.offset);
+      return true;
+      }
+  
+    }
+
+    
+  
+
+
 
     this.getFrame = (index) => {
-      return this.reel[index];
-    };
+    return this.frames[index];
+  }
+
 
     this.calculateDifference = (index) => {
 
       return 0;
     };
+
 
     this.compareFrames = (frameIdx, gyroFrame) => {
       let result = 0;
@@ -66,13 +109,6 @@ class Reel {
 
     
 
-    this.addFrame(frame) = () => {
-      this.frames.push(frame);
-      if (this.checkForRepeat(frame)) {
-          console.log("Switching to compare mode");
-      }
-  }
-
   checkForRepeat(currentFrame) = () => {
       if (this.frames.length < 2) {
           return false;
@@ -92,4 +128,5 @@ class Reel {
 
       return isRepeat;
   }
+}
 }
