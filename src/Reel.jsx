@@ -1,9 +1,9 @@
-//This class should be able to add and compare frames
-//We need to decide how to compare the frames and then how that should affect the score
-//We want to avoid the score going negative and we want to avoid the score going above 100%
+ import React, { useState } from 'react';
 
-class Reel {
+class Reel extends React.Component({ appMode, setAppMode }){
   constructor() {
+    const modes = ["noRecording", "idle", "recording", "comparing", "calibrating"];
+    this.mode = appMode;
     this.reel = [];
     this.tolerance = 1;
     this.comulative_score = score;
@@ -17,6 +17,24 @@ class Reel {
     this.calibrationTimer = 30;
     this.offset = [0.0, 0.0, 0.0]; 
 
+    this.appLoop = () => {
+      switch (this.mode) {
+        case "noRecording":
+
+          break;
+        case "recording":
+
+          break;
+        case "comparing":
+
+          break;
+        case "calibrating":
+
+          break;
+        default:
+          break;
+      }
+    };
 
     addFrame =  (frame) => {
       if (this.mode === "calibrate") {
@@ -53,10 +71,6 @@ class Reel {
     }
 
     
-  
-
-
-
     this.getFrame = (index) => {
     return this.frames[index];
   }
@@ -70,9 +84,8 @@ class Reel {
 
     this.compareFrames = (frameIdx, gyroFrame) => {
       let result = 0;
-
-    let difference = this.calculateDifference(this.reel[frameIdx], gyroFrame);
-    let adjustedDifference = (difference + 1) * this.tolerance; 
+      let difference = this.calculateDifference(this.reel[frameIdx], gyroFrame);
+      let adjustedDifference = (difference + 1) * this.tolerance; 
       this.adjustScore(adjustedDifference);
     };
 
@@ -130,3 +143,4 @@ class Reel {
   }
 }
 }
+export default Reel;
