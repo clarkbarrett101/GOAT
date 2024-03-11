@@ -17,15 +17,16 @@ class Reel extends React.Component({ appMode, setAppMode }){
     this.calibrationTimer = 30;
     this.offset = [0.0, 0.0, 0.0]; 
 
-    this.appLoop = () => {
+    this.appLoop = (gyro) => {
       switch (this.mode) {
         case "noRecording":
 
           break;
         case "recording":
-
+        
           break;
         case "comparing":
+          
 
           break;
         case "calibrating":
