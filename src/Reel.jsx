@@ -17,19 +17,22 @@ class Reel extends React.Component({ appMode, setAppMode }){
     this.calibrationTimer = 30;
     this.offset = [0.0, 0.0, 0.0]; 
 
-    this.appLoop = (gyro) => {
+    this.appLoop = (gyro) => { //change modes
       switch (this.mode) {
         case "noRecording":
 
           break;
         case "recording":
+          this.getFrameRate(gyro);
         
           break;
         case "comparing":
+          this.compareFrames(gyro);
           
 
           break;
         case "calibrating":
+          this.calibrateFrames(gyro);
 
           break;
         default:
@@ -37,7 +40,7 @@ class Reel extends React.Component({ appMode, setAppMode }){
       }
     };
 
-    addFrame =  (frame) => {
+    addFrame =  (frame) => { 
       if (this.mode === "calibrate") {
         this.calibrate(frame);
       } else {
@@ -47,12 +50,13 @@ class Reel extends React.Component({ appMode, setAppMode }){
         }
       }
     }
-  this.calibrate = (frame) =>{
-    this.calibrateTimer--;
+
+  this.calibrate = (frame) =>{ //Calibrate
+    this.calibrateTimer--; 
 
     if (calibrateTimer > 0) {
 
-      this.calibrationReadings.push(frame);
+      this.calibrationReadings.push(frame); 
       return false; 
 
     }else{
