@@ -1,0 +1,44 @@
+.reccontainer{
+position: absolute;
+width: 300px;
+height: 150px;
+left: 0px;
+top: 207px;
+}
+
+
+.background{
+box-sizing: border-box;
+position: absolute;
+width: 300px;
+height: 150px;
+left: 0px;
+top: 0px;
+background: #FEE2E2;
+border: 10px solid #450A0A;
+background-size: repeat;
+}
+
+.icon{
+position: absolute;
+width: 100px;
+height: 105px;
+left: 20px;
+top: 19px;
+background: url(/assets/record_inactive.png);
+}
+
+.title{
+position: absolute;
+width: 126px;
+height: 77px;
+left: 150px;
+top: 36px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 64px;
+line-height: 77px;
+color: #450A0A;
+}
+

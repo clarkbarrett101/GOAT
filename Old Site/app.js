@@ -7,36 +7,36 @@ import {
   setModeToRecord,
   increaseToleranceLevel,
   decreaseToleranceLevel,
+  scoreToLetterGrade,
 } from "./gizmos.js";
-import * as THREE from "https://unpkg.com/three/build/three.module.js";
-// UpdateLoop() is the main loop of the program. It checks the current mode and runs the appropriate code. The loop repeats 10 times per second.
-
-document.getElementById("plusTolerance").addEventListener("click", () => {
-  increaseToleranceLevel();
-  document.getElementById("frame").innerHTML =
-    Math.round(10 * getToleranceLevel()) / 10;
-});
-document.getElementById("minusTolerance").addEventListener("click", () => {
-  decreaseToleranceLevel();
-  document.getElementById("frame").innerHTML =
-    Math.round(10 * getToleranceLevel()) / 10;
-});
-
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+const loader = new GLTFLoader();
+const gyro = new Gyro();
+const masterReel = new Reel();
 const recordButton = document.getElementById("recordButton");
 const compareButton = document.getElementById("compareButton");
+const calibrateButton = document.getElementById("calibrateButton");
+const pairButton = document.getElementById("pairButton");
 recordButton.addEventListener("click", () => {
   setModeToRecord(stateMachine);
 });
 compareButton.addEventListener("click", () => {
   setModeToCompare(stateMachine);
 });
+calibrateButton.addEventListener("click", () => {
+  gyro.calibrate();
+});
+pairButton.addEventListener("click", () => {
+  gyro.connectBLE();
+});
 
 const scene = new THREE.Scene();
 const scene2 = new THREE.Scene();
 scene.background = new THREE.Color(0xffeeee);
 scene2.background = new THREE.Color(0xeeeeff);
-scene.fog = new THREE.Fog(0xffeeee, 0, 3);
-scene2.fog = new THREE.Fog(0xeeeeff, 0, 3);
+scene.fog = new THREE.Fog(0xffeeee, 0, 7);
+scene2.fog = new THREE.Fog(0xeeeeff, 0, 7);
 const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const camera2 = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
@@ -47,23 +47,29 @@ const liveView = document.getElementById("liveView");
 liveView.appendChild(renderer.domElement);
 const compareView = document.getElementById("compareView");
 compareView.appendChild(renderer2.domElement);
-const geometry = new THREE.ConeGeometry();
-const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const cylinder = new THREE.Mesh(geometry, material);
-const cylinder2 = new THREE.Mesh(geometry, material2);
-const cube2 = new THREE.Object3D();
-const cube = new THREE.Object3D();
-cube.add(cylinder);
-cube2.add(cylinder2);
-cylinder.rotation.x = -Math.PI / 2;
-cylinder2.rotation.x = -Math.PI / 2;
-scene.add(cube);
-scene2.add(cube2);
 scene2.add(camera2);
 camera.position.z = 2;
 camera2.position.z = 2;
-
+let skull1 = new THREE.Scene();
+let skull2 = new THREE.Scene();
+loader.load("/assets/GoatSkull.glb", function (skull) {
+  skull.scene.scale.set(0.3, 0.3, 0.3);
+  skull.scene.traverse(function (child) {
+    if (child.isMesh) {
+      child.depthWrite = false;
+    }
+  });
+  skull1.add(skull.scene);
+  skull2.add(skull.scene.clone());
+  scene.add(skull1);
+  scene2.add(skull2);
+});
+let compass = new THREE.Object3D();
+let compassBuffer = new THREE.Object3D();
+let compass2 = new THREE.Object3D();
+let compassBuffer2 = new THREE.Object3D();
+scene.add(compass);
+scene2.add(compass2);
 const StateMachine = {
   currentMode: "recording",
   modes: {
@@ -74,109 +80,56 @@ const StateMachine = {
 };
 const stateMachine = Object.create(StateMachine);
 stateMachine.currentMode = "idle";
-
-const gyro = new Gyro();
-const masterReel = new Reel();
 let currentFrame = 0;
-
-const compass = new THREE.Object3D();
-scene.add(compass);
-const compass2 = new THREE.Object3D();
-scene2.add(compass2);
-compass.position.y = -9.8;
-cube.lookAt(compass.position);
-
-let motionSet = false;
-
-addEventListener("click", (event) => {
-  if (!motionSet) {
-    motionSet = true;
-    console.log("checking permission");
-    if (typeof DeviceMotionEvent.requestPermission === "function") {
-      console.log("requesting permission");
-      DeviceMotionEvent.requestPermission().then((response) => {
-        if (response == "granted") {
-          console.log("permission granted");
-          startMotion();
-        }
-      });
-    } else {
-      console.log("no permission needed");
-      startMotion();
-    }
-    if (!motionSet) {
-      motionSet = true;
-      console.log("checking permission");
-      if (typeof DeviceMotionEvent.requestPermission === "function") {
-        console.log("requesting permission");
-        DeviceMotionEvent.requestPermission().then((response) => {
-          if (response == "granted") {
-            console.log("permission granted");
-            startMotion();
-          }
-        });
-      } else {
-        console.log("no permission needed");
-        startMotion();
-      }
-    }
-  }
-});
-
-function startMotion() {
-  console.log("starting motion");
-  window.addEventListener("devicemotion", (event) => {
-    compass.position.x = event.accelerationIncludingGravity.x / 3;
-    compass.position.y = event.accelerationIncludingGravity.y / 3;
-    compass.position.z = event.accelerationIncludingGravity.z / 3;
-    cube.lookAt(compass.position);
-    gyro.x = compass.position.x;
-    gyro.y = compass.position.y;
-    gyro.z = compass.position.z;
-  });
-}
 
 let frameDisplay = document.getElementById("frame");
 let maxFrame = 0;
+let gyroBuffer = [0, 0, 0];
 function animate() {
-  compass.position.x = gyro.x;
-  compass.position.y = gyro.y;
-  compass.position.z = gyro.z;
-  cube.lookAt(compass.position);
+  compass.position.x = gyro.readArray()[0] + skull1.position.x;
+  compass.position.y = gyro.readArray()[1] + skull1.position.y;
+  compass.position.z = gyro.readArray()[2] + skull1.position.z;
+  skull1.lookAt(compass.position);
   switch (stateMachine.currentMode) {
     case "idle":
       currentFrame = 0;
+      masterReel.reset();
       maxFrame = masterReel.frames.length;
+      frameDisplay.innerHTML = currentFrame + "/" + maxFrame;
       break;
     case "recording":
-      if (gyro.isMoving()) {
-        masterReel.addFrame(currentFrame, gyro.readArray());
+      compass2.position.x = gyro.readArray()[0] + skull2.position.x;
+      compass2.position.y = gyro.readArray()[1] + skull2.position.y;
+      compass2.position.z = gyro.readArray()[2] + skull2.position.z;
+      skull2.lookAt(compass2.position);
+      if (masterReel.addFrame(gyro.readArray())) {
+        setModeToCompare(stateMachine);
+        currentFrame = 0;
+      } else {
         currentFrame++;
       }
-      compass2.position.clone(compass.position);
-      cube2.lookAt(compass2.position);
+      maxFrame = masterReel.frames.length;
+      frameDisplay.innerHTML = currentFrame + "\n/" + maxFrame;
       break;
     case "comparing":
-      if (gyro.isMoving()) {
-        let gyroFrame = gyro.readArray();
-        let reelFrame = masterReel.readFrame(currentFrame);
-        compass2.position.x = reelFrame[0];
-        compass2.position.y = reelFrame[1];
-        compass2.position.z = reelFrame[2];
-        cube2.lookAt(compass2.position);
-        changeScore(
-          masterReel.compareGyroFrame(
-            gyroFrame,
-            currentFrame,
-            getToleranceLevel()
-          )
-        );
-        currentFrame++;
-      }
+      let gyroFrame = gyro.readArray();
+      let newFrame = masterReel.getFrame(currentFrame);
+      compass2.position.x = newFrame[0] + skull2.position.x;
+      compass2.position.y = newFrame[1] + skull2.position.y;
+      compass2.position.z = newFrame[2] + skull2.position.z;
+      skull2.lookAt(compass2.position);
+      masterReel.compareGyroFrame(currentFrame, gyroFrame);
+      scoreToLetterGrade(masterReel.getScore() / 100);
+      currentFrame++;
+      frameDisplay.innerHTML = currentFrame + "\n/" + maxFrame;
       if (currentFrame >= maxFrame) {
-        compareButton.click();
+        currentFrame = 0;
       }
       break;
+  }
+  if (gyro.isConnected()) {
+    pairButton.className =
+      "m-3 rounded-full border-8 border-white w-fit text-white bg-blue-900 font-extrabold flex flex-row h-fit";
   }
   renderer.render(scene, camera);
   renderer2.render(scene2, camera2);
