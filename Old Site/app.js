@@ -52,7 +52,7 @@ camera.position.z = 2;
 camera2.position.z = 2;
 let skull1 = new THREE.Scene();
 let skull2 = new THREE.Scene();
-loader.load("/assets/GoatSkull.glb", function (skull) {
+loader.load("./assets/GoatSkull.glb", function (skull) {
   skull.scene.scale.set(0.3, 0.3, 0.3);
   skull.scene.traverse(function (child) {
     if (child.isMesh) {
