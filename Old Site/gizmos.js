@@ -57,15 +57,12 @@ function setModeToRecord(stateMachine) {
 }
 
 function setModeToCompare(stateMachine) {
-  if (
-    stateMachine.currentMode == "recording" ||
-    stateMachine.currentMode == "comparing"
-  ) {
+  recordIcon.src = recordOffImg;
+  recordText.className = recordOffStyle;
+  if (stateMachine.currentMode == "comparing") {
     stateMachine.currentMode = "idle";
     compareIcon.src = compareOffImg;
     compareText.className = compareOffStyle;
-    recordIcon.src = recordOffImg;
-    recordText.className = recordOffStyle;
   } else if (recordingAvailable) {
     stateMachine.currentMode = "comparing";
     compareIcon.src = compareOnImg;

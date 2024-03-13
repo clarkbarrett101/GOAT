@@ -1,17 +1,22 @@
 import { useState } from "react";
-import Driver from "./Driver";
+import RecordButton from "./RecordButton";
 import "./App.css";
 
 function App() {
-  const [driver] = useState(() => new Driver());
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Driver</h1>
-        <p>Mode: {driver.mode}</p>
-        <p>Score: {driver.score}</p>
-        <p>Grade: {driver.grade}</p>
-      </header>
+    <div className="Background">
+      <RecordButton />
+      <div className="BackLayer">
+        <div className="Logo" />
+        <div className="ScoreBox">
+          <div className="ScoreTitle">Score:</div>
+          <div className="ScoreText">S</div>
+        </div>
+        <div className="LiveBox" />
+        <div className="RecordedBox" />
+        <div className="LiveTitle">Live View</div>
+        <div className="RecordedTitle">Recorded</div>
+      </div>
     </div>
   );
 }
