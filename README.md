@@ -1,3 +1,5 @@
+[Download Test App iOS](https://testflight.apple.com/join/htzpokYB)
+
 # Project: G.O.A.T. 
 *(Gyroscope Orientation Assisted Trainer)*
 
